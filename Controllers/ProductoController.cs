@@ -18,14 +18,14 @@ public class ProductoController : ControllerBase
 
     // metódicos
 
-    [HttpPost("Api/Producto")]
+    [HttpPost("Api/AltaProducto")]
     public ActionResult<string> AltaProducto(Producto nuevoProducto)
     {
         int nuevoId = productoRepository.Alta(nuevoProducto);
         return Ok("Producto dado de alta exitosamente " + nuevoId.ToString());
     }
 
-    [HttpPut("Api/Producto{id}")]
+    [HttpPut("Api/ModificarProducto{id}")]
     public ActionResult<string> ModificarProducto(int id, Producto producto)
     {
         bool result = productoRepository.Modificar(id, producto);
@@ -36,5 +36,32 @@ public class ProductoController : ControllerBase
         }
 
         return Ok("Producto modificado exitosamente");
+    }
+
+    [HttpGet("Api/Listar")]
+    public ActionResult<List<Producto>> GetAll()
+    {
+        List<Producto> lista = productoRepository.Listar();
+        return Ok(lista);
+    }
+
+    [HttpGet("Api/ObtenerPorId{id}")]
+    public ActionResult<Producto> GetById(int id)
+    {
+        Producto? prod = productoRepository.obtenerProducto(id);
+        return Ok(prod);
+    }
+
+    [HttpDelete("Api/BorrarProducto")]
+    public ActionResult<string> BorrarPorId(int id)
+    {
+        bool result = productoRepository.eliminarProducto(id);
+
+        if (result == false)
+        {
+            return NotFound($"No se pudo borrar el producto de id {id}.");
+        }
+
+        return Ok(result);
     }
 }
