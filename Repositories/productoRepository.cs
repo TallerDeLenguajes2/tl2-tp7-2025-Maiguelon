@@ -84,9 +84,9 @@ public class ProductoRepository
         return listaProductos;
     }
 
-    public Producto? obtenerProducto(int ide)
+    public Producto obtenerProducto(int ide)
     {
-        Producto? product = null;
+        Producto product = null;
         using (var connection = new SqliteConnection(connectionString))
         {
             connection.Open();
